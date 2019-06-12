@@ -39,10 +39,7 @@ class App extends Component{
       box : {},
       route : 'signin',
       isSignedIn : false,
-      // user : {
-      //   name : '',
-      //   enteries : '',
-      // },
+      user : ''
     }
   }
   //fetching the users from the server
@@ -52,16 +49,10 @@ class App extends Component{
   //   .then(console.log)
   // }
 
-  // loadUser = (datasignin) => {
-  //   console.log('data in app', datasignin)
-  //   console.log('name', datasignin.name)
-  //   this.setState = ({ 
-  //     user : {
-  //       name : datasignin.name,
-  //       enteries : datasignin.enteries,
-  //     } 
-  //   })
-  // }
+  loadUser = (data) =>{
+    console.log("data after signin", data)
+    this.setState({user : data})
+  }
 
   calculateLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -119,14 +110,14 @@ class App extends Component{
         { this.state.route === 'home'
           ? <div>
               < Logo />
-              < Rank />
+              < Rank user = {this.state.user}/>
               < ImageLinkForm 
                 onInputChange = {this.onInputChange} 
                 onButtonSubmit= {this.onButtonSubmit}/>
               < FaceRecognation box={this.state.box} imageUrl = {this.state.imageUrl}/>
             </div>
           : ( this.state.route === 'signin'
-              ? < SignIn onRouteChange = {this.onRouteChange}/> 
+              ? < SignIn onRouteChange = {this.onRouteChange} loadUser = {this.loadUser}/> 
               : < Register loadUser={this.loadUser} onRouteChange = {this.onRouteChange}/>
 
           )
