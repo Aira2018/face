@@ -8,6 +8,7 @@ import Register from './Components/Register/Register';
 import Logo from './Components/Logo/Logo';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm'
 import Rank from './Components/Rank/Rank'
+import Footer from './Components/footer/footer'
 import Particles from 'react-particles-js';
 import 'tachyons';
 
@@ -29,18 +30,23 @@ const particlesOptions = {
   }
         
 };
+const initialstate = {
+  input : '',
+  imageUrl : '',
+  box : {},
+  route : 'signin',
+  isSignedIn : false,
+  user : {
+    name : '',
+    enteries : '',
+    joined : ''
+  }
+}
 
 class App extends Component{
   constructor(){
     super();
-    this.state = {
-      input : '',
-      imageUrl : '',
-      box : {},
-      route : 'signin',
-      isSignedIn : false,
-      user : ''
-    }
+    this.state = initialstate;
   }
   //fetching the users from the server
   // componentDidMount(){
@@ -51,7 +57,11 @@ class App extends Component{
 
   loadUser = (data) =>{
     console.log("data after signin", data)
-    this.setState({user : data})
+    this.setState({user : {
+      name : data.name,
+      enteries : data.enteries,
+      joined : data.joined
+    }})
   }
 
   calculateLocation = (data) => {
@@ -77,7 +87,7 @@ class App extends Component{
 
   onRouteChange = (route) => {
     if(route ==='signout'){
-      this.setState({isSignedIn : false});
+      this.setState(initialstate);
     }
     else if(route ==='home'){
       this.setState({isSignedIn : true});
@@ -115,6 +125,7 @@ class App extends Component{
                 onInputChange = {this.onInputChange} 
                 onButtonSubmit= {this.onButtonSubmit}/>
               < FaceRecognation box={this.state.box} imageUrl = {this.state.imageUrl}/>
+              <Footer />
             </div>
           : ( this.state.route === 'signin'
               ? < SignIn onRouteChange = {this.onRouteChange} loadUser = {this.loadUser}/> 
