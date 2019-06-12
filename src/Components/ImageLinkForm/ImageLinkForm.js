@@ -7,7 +7,7 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit}) =>{
             <div className='center'>
                 <div>
                     <input className='f4' type='text' onChange={onInputChange}/>
-                    <button className='grow mt1'
+                    <button className='mt1 grow'
                     onClick={onButtonSubmit}>Detect Face</button>
                 </div>
                     

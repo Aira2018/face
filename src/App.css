@@ -16,3 +16,17 @@ body{
   left: 0;
   z-index: -1;
 }
+#inputImage {
+  height: 400px;
+  width: 400px;
+}
+
+.bounding-box {
+    position: absolute;
+    box-shadow: 0 0 0 3px #149df2 inset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}
+
