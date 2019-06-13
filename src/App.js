@@ -37,6 +37,7 @@ const initialstate = {
   route : 'signin',
   isSignedIn : false,
   user : {
+    id : '',
     name : '',
     enteries : '',
     joined : ''
@@ -58,6 +59,7 @@ class App extends Component{
   loadUser = (data) =>{
     console.log("data after signin", data)
     this.setState({user : {
+      id :data.id,
       name : data.name,
       enteries : data.enteries,
       joined : data.joined
@@ -106,7 +108,20 @@ class App extends Component{
 
     app.models
     .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-    .then(response => this.displayFaceBox(this.calculateLocation(response)))
+    .then(response => {
+      if(response){
+        fetch('http://localhost:3001/image',{
+          method : 'put',
+          headers : {
+              'Content-type' : 'application/json'
+          },
+          body : JSON.stringify({
+            id : this.state.user.id,
+          })
+        }).then(response => response.json())
+         .then(user => this.loadUser(user))
+      }
+      this.displayFaceBox(this.calculateLocation(response))})
     .catch(err => console.log(err));
   }
 
